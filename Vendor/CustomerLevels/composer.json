@@ -1,0 +1,25 @@
+{
+  "name": "vendor/module-customer-levels",
+  "description": "Assign a tier level to your customers based on the number of orders they have successfully placed.",
+  "type": "magento2-module",
+  "license": [
+    "OSL-3.0",
+    "AFL-3.0"
+  ],
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "Hadrian Onate",
+      "email": "hadrian.onate@gmail.com",
+      "role": "Magento 2 Extension Provider"
+    }
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Vendor\\CustomerLevels\\": ""
+    }
+  }
+}
