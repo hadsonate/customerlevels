@@ -1,11 +1,14 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © Above The Fray Design, Inc. All rights reserved.
- * See ATF_COPYING.txt for license details.
+ * Copyright (c) 2025 Hadrian Oñate. All rights reserved.
+ *
+ * Unauthorized copying, modification, distribution, or use of this file,
+ * via any medium, is strictly prohibited without prior written permission.
  */
 -->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Vendor\CustomerLevels\Api\CustomerOrderCountRepositoryInterface"
                 type="Vendor\CustomerLevels\Model\CustomerOrderCountRepository"/>
 </config>
