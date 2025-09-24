@@ -11,4 +11,11 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Vendor\CustomerLevels\Api\CustomerOrderCountRepositoryInterface"
                 type="Vendor\CustomerLevels\Model\CustomerOrderCountRepository"/>
+    <type name="Magento\Sales\Model\Order\Invoice">
+        <plugin name="vendor_customerlevels_increment_ordercount_lvl"
+                type="Vendor\CustomerLevels\Plugin\OrderInvoiceIncrementCustomerOrderCountPlugin"
+                sortOrder="100"
+                disabled="false"
+        />
+    </type>
 </config>

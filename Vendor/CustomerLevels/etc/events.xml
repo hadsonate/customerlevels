@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) 2025 Hadrian Oñate. All rights reserved.
+ *
+ * Unauthorized copying, modification, distribution, or use of this file,
+ * via any medium, is strictly prohibited without prior written permission.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_order_creditmemo_save_after">
+        <observer name="vendor_customerlevels_creditmemo_decrement_ordercount_aftersave"
+                  instance="Vendor\CustomerLevels\Observer\CheckoutSubmitAfterPlugin" />
+    </event>
+
+</config>

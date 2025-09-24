@@ -120,9 +120,10 @@ class CustomerOrderCountRepository implements CustomerOrderCountRepositoryInterf
      */
     public function incrementCustomerOrderCount(int $customerId, int $amount = 1)
     {
-        if ($amount <= 0) {
-            return (int) $this->getCustomerOrderCount($customerId);
-        }
+          // Disable this right now & allow negative amount
+//        if ($amount <= 0) {
+//            return (int) $this->getCustomerOrderCount($customerId);
+//        }
         try {
             /** @var CustomerInterface $customer */
             $customer = $this->customerRepository->getById($customerId);
@@ -139,7 +140,12 @@ class CustomerOrderCountRepository implements CustomerOrderCountRepositoryInterf
         if ($orderCountAttr) {
             $customerOrderCount = $orderCountAttr->getValue();
         }
-        $customerOrderCount += (int) $amount;
+
+        if ($customerOrderCount <= 0) {
+            $customerOrderCount = 0;
+        } else {
+            $customerOrderCount += (int) $amount;
+        }
         $customer->setCustomAttribute(self::ATTRIBUTE_CODE, $customerOrderCount);
         try {
             $this->customerRepository->save($customer);
