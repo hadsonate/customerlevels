@@ -13,6 +13,7 @@ use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Psr\Log\LoggerInterface as LoggerInterface;
 use Magento\Sales\Api\Data\OrderInterface;
+use Vendor\CustomerLevels\Helper\Data as CustomerLvlHelper;
 
 class CustomerOrderCountRepository implements CustomerOrderCountRepositoryInterface
 {
@@ -31,6 +32,11 @@ class CustomerOrderCountRepository implements CustomerOrderCountRepositoryInterf
      */
     private $logger;
 
+    /**
+     * @var CustomerLvlHelper
+     */
+    private $customerLvlHelper;
+
     const ATTRIBUTE_CODE = 'customer_order_count';
 
     /**
@@ -43,10 +49,12 @@ class CustomerOrderCountRepository implements CustomerOrderCountRepositoryInterf
     public function __construct(
         CustomerRepositoryInterface $customerRepository,
         CustomerInterface           $customerInterface,
+        CustomerLvlHelper           $customerLvlHelper,
         LoggerInterface             $logger
     ) {
         $this->customerRepository = $customerRepository;
         $this->customerInterface = $customerInterface;
+        $this->customerLvlHelper = $customerLvlHelper;
         $this->logger = $logger;
     }
 
@@ -156,13 +164,31 @@ class CustomerOrderCountRepository implements CustomerOrderCountRepositoryInterf
         return $customerOrderCount;
     }
 
-    public function determineTierLevelByCustomer(CustomerInterface $customer)
+    /**
+     * @param $customerId
+     * @return int
+     * @throws NoSuchEntityException
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Throwable
+     */
+    public function determineTierLevelByCustomer($customerId)
     {
-        // TODO: Implement determineTierLevelByCustomer() method.
+        $orderCount = $this->getCustomerOrderCount($customerId);
+        if ($orderCount >= 0) {
+            return (int) $this->customerLvlHelper->getTierLvlByCustOrderCountValue($orderCount);
+        }
+        return 0;
     }
 
-    public function determinTierLevelByIncrement(int $incrementValue)
+    /**
+     * @param $increment
+     * @return int
+     */
+    public function determineTierLevelByIncrement($increment)
     {
-        // TODO: Implement determinTierLevelByIncrement() method.
+        if ($increment >= 0) {
+            return (int) $this->customerLvlHelper->getTierLvlByCustOrderCountValue($increment);
+        }
+        return 0;
     }
 }

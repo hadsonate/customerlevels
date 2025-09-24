@@ -52,15 +52,20 @@ class Data extends AbstractHelper
             $this->getTierLevelsConfig();
         }
         $tiers = $this->_tierConfig;
+        $lastTier = [];
         foreach ($tiers as $tier) {
             $tier = (array) $tier;
 
             if ($tier[self::TIER_ENABLE] && $orderCount <= (int)$tier[self::TIER_CAP]) {
                 return $tier[self::TIER_LVL];
+            } else if ($tier[self::TIER_ENABLE]) {
+                $lastTier = $tier;
             }
+        }
+        if ($orderCount > $lastTier[self::TIER_CAP]) {
+            return (int) $lastTier[self::TIER_LVL];
         }
         return 0;
     }
-
 
 }

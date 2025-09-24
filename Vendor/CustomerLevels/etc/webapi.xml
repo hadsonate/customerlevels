@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * Copyright (c) 2025 Hadrian Oñate. All rights reserved.
+ *
+ * Unauthorized copying, modification, distribution, or use of this file,
+ * via any medium, is strictly prohibited without prior written permission.
+ */
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/customerlevels/customers/:customerId/tierlevel" method="GET">
+        <service class="Vendor\CustomerLevels\Api\CustomerOrderCountRepositoryInterface" method="determineTierLevelByCustomer"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+    <route url="/V1/customerlevels/customers/:increment/tierlevel" method="GET">
+        <service class="Vendor\CustomerLevels\Api\CustomerOrderCountRepositoryInterface" method="determineTierLevelByIncrement"/>
+        <resources>
+            <resource ref="self"/>
+        </resources>
+    </route>
+</routes>

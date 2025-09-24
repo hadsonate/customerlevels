@@ -11,7 +11,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <event name="sales_order_creditmemo_save_after">
         <observer name="vendor_customerlevels_creditmemo_decrement_ordercount_aftersave"
-                  instance="Vendor\CustomerLevels\Observer\CheckoutSubmitAfterPlugin" />
+                  instance="Vendor\CustomerLevels\Observer\CreditMemoDecrementOrderCountAfterSaveObserver" />
     </event>
 
 </config>
