@@ -14,6 +14,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Psr\Log\LoggerInterface as LoggerInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Vendor\CustomerLevels\Helper\Data as CustomerLvlHelper;
+use Magento\Sales\Model\ResourceModel\Order\CollectionFactory as OrderCollectionFactory;
 
 class CustomerOrderCountRepository implements CustomerOrderCountRepositoryInterface
 {
@@ -37,6 +38,11 @@ class CustomerOrderCountRepository implements CustomerOrderCountRepositoryInterf
      */
     private $customerLvlHelper;
 
+    /**
+     * @var OrderCollectionFactory
+     */
+    private $orderCollection;
+
     const ATTRIBUTE_CODE = 'customer_order_count';
 
     /**
@@ -50,11 +56,13 @@ class CustomerOrderCountRepository implements CustomerOrderCountRepositoryInterf
         CustomerRepositoryInterface $customerRepository,
         CustomerInterface           $customerInterface,
         CustomerLvlHelper           $customerLvlHelper,
+        OrderCollectionFactory      $orderCollection,
         LoggerInterface             $logger
     ) {
         $this->customerRepository = $customerRepository;
         $this->customerInterface = $customerInterface;
         $this->customerLvlHelper = $customerLvlHelper;
+        $this->orderCollection = $orderCollection;
         $this->logger = $logger;
     }
 
@@ -128,6 +136,9 @@ class CustomerOrderCountRepository implements CustomerOrderCountRepositoryInterf
      */
     public function incrementCustomerOrderCount(int $customerId, int $amount = 1)
     {
+        if (!$this->customerLvlHelper->isCustomerLevelsEnabled()) {
+            return (int) $this->getCustomerOrderCount($customerId);
+        }
           // Disable this right now & allow negative amount
 //        if ($amount <= 0) {
 //            return (int) $this->getCustomerOrderCount($customerId);

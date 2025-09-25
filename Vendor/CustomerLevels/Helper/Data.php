@@ -13,25 +13,38 @@ use Magento\Store\Model\StoreManagerInterface;
 
 class Data extends AbstractHelper
 {
+    const XML_PATH_CUSTLVL_ENABLED  = 'customer_levels/general/enabled';
     const XML_PATH_CUSTLVL_TIERSETS = 'customer_levels/general/tier_levels';
     const TIER_LVL = 'tier_level';
     const TIER_CAP = 'tier_cap';
     const TIER_ENABLE = 'enable';
 
-    /**
-     * @var StoreManagerInterface
-     */
-    protected $storeManagerInterface;
-
     protected $_tierConfig;
 
     /**
+     * Is Customer Levels enabled
+     *
+     * @return bool
+     */
+    public function isCustomerLevelsEnabled()
+    {
+        return (bool) $this->scopeConfig->getValue(
+            self::XML_PATH_CUSTLVL_ENABLED,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
      * Get the config data for Tier Levels
+     *
      * @return mixed
      */
     protected function getTierLevelsConfig()
     {
-        $tiers = $this->scopeConfig->getValue(self::XML_PATH_CUSTLVL_TIERSETS, ScopeInterface::SCOPE_STORE);
+        $tiers = $this->scopeConfig->getValue(
+            self::XML_PATH_CUSTLVL_TIERSETS,
+            ScopeInterface::SCOPE_STORE
+        );
         if (empty($tiers)) {
             return [];
         }

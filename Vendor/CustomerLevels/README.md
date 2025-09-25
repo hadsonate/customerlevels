@@ -37,8 +37,51 @@ Save the configuration once done then clear cache.
 
 
 ### For Testing
-
+#### Manually
 1. Add a product to the cart and place an order.
 2. Navigate to:  
-   **Customers > All Customers > [Select a customer] > Account Information > Customer Order Count**
+   `Customers > All Customers > [Select a customer] > Account Information > Customer Order Count`
 3. Verify that the **Customer Order Count (Customer Level)** attribute is displayed and correctly updated.  
+4. Navigate to:  
+   `Sales > Orders > [Select Invoiced Order] > Click Credit Memo > Refund`
+5. Check Steps 2 - 3 To verify that **Customer Count** decreases.
+
+
+
+#### Via Postman
+
+#####  Authentication
+1. Open Postman
+2. Send a `POST` request to generate an **Admin Bearer Token**:
+`{
+   "username": "yourAdminUsername",
+   "password": "yourAdminPassword"
+}`
+3. Use the response as our **Bearer Token** Authentication:
+`POSTMAN > Authorization > Auth Type > Bearer Token : Token`
+#####  Application
+1. To Retrieve Tier Level using Customer ID:
+   `GET`,
+`/rest/default/V1/customerlevels/customers/:customerId/tierlevel`
+   <br/>
+Example:
+`GET http://magento.local/rest/default/V1/customerlevels/customers/123/tierlevel`
+2. To Retrieve Tier Level by Increment Value:
+   `GET`,
+   `/rest/default/V1/customerlevels/customers/:increment/tierlevelbyincrement`
+   <br/>
+   Example:
+`GET http://magento.local/rest/default/V1/customerlevels/customers/123/tierlevelbyincrement`
+3. To Add increment to a Customer Order Count:
+   `POST`,
+   `rest/V1/customerlevels/customers/increment`
+   <br/>
+   Example:
+   `POST http://magento.local/rest/V1/customerlevels/customers/increment`
+<br/>
+`BODY > raw`
+`{
+   "customerId": 25628,
+   "increment": 1
+   }`
+

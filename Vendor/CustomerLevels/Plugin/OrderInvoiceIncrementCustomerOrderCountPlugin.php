@@ -10,6 +10,7 @@ namespace Vendor\CustomerLevels\Plugin;
 use Vendor\CustomerLevels\Api\CustomerOrderCountRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Magento\Sales\Model\Order\Invoice as OrderInvoice;
+use Vendor\CustomerLevels\Helper\Data as CustLvlHelper;
 
 class OrderInvoiceIncrementCustomerOrderCountPlugin
 {
@@ -19,15 +20,22 @@ class OrderInvoiceIncrementCustomerOrderCountPlugin
     protected $customerOrderCountRepository;
 
     /**
+     * @var CustLvlHelper
+     */
+    protected $custLvlHelper;
+
+    /**
      * @var LoggerInterface
      */
     private LoggerInterface $logger;
 
     public function __construct(
         CustomerOrderCountRepositoryInterface $customerOrderCountRepository,
+        CustLvlHelper $custLvlHelper,
         LoggerInterface $logger
     ) {
         $this->customerOrderCountRepository = $customerOrderCountRepository;
+        $this->custLvlHelper = $custLvlHelper;
         $this->logger = $logger;
     }
 
@@ -38,6 +46,9 @@ class OrderInvoiceIncrementCustomerOrderCountPlugin
         $isNewInvoice = $subject->isObjectNew();
 
         $result = $proceed();
+        if (!$this->custLvlHelper->isCustomerLevelsEnabled()) {
+            return $result;
+        }
         // should only trigger the code if its new invoice // update or delete should exclude
         if (!$isNewInvoice) {
             return $result;

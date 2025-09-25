@@ -11,13 +11,19 @@
     <route url="/V1/customerlevels/customers/:customerId/tierlevel" method="GET">
         <service class="Vendor\CustomerLevels\Api\CustomerOrderCountRepositoryInterface" method="determineTierLevelByCustomer"/>
         <resources>
-            <resource ref="self"/>
+            <resource ref="anonymous"/>
         </resources>
     </route>
-    <route url="/V1/customerlevels/customers/:increment/tierlevel" method="GET">
+    <route url="/V1/customerlevels/customers/:increment/tierlevelbyincrement" method="GET">
         <service class="Vendor\CustomerLevels\Api\CustomerOrderCountRepositoryInterface" method="determineTierLevelByIncrement"/>
         <resources>
-            <resource ref="self"/>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/customerlevels/customers/increment" method="POST">
+        <service class="Vendor\CustomerLevels\Api\CustomerOrderCountRepositoryInterface" method="incrementCustomerOrderCount"/>
+        <resources>
+            <resource ref="anonymous"/>
         </resources>
     </route>
 </routes>

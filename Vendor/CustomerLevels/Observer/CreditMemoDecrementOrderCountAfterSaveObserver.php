@@ -11,6 +11,7 @@ use Laminas\Db\Exception\ErrorException;
 use Magento\Framework\Event\ObserverInterface;
 use Psr\Log\LoggerInterface;
 use Vendor\CustomerLevels\Api\CustomerOrderCountRepositoryInterface;
+use Vendor\CustomerLevels\Helper\Data as CustLevelHelper;
 
 class CreditMemoDecrementOrderCountAfterSaveObserver implements ObserverInterface
 {
@@ -20,15 +21,22 @@ class CreditMemoDecrementOrderCountAfterSaveObserver implements ObserverInterfac
     protected $customerOrderCountRepository;
 
     /**
+     * @var CustLevelHelper
+     */
+    protected $custLvlHelper;
+
+    /**
      * @var LoggerInterface
      */
     protected $logger;
 
     public function __construct(
         CustomerOrderCountRepositoryInterface $customerOrderCountRepository,
+        CustLevelHelper $custLvlHelper,
         LoggerInterface $logger
     ) {
         $this->customerOrderCountRepository = $customerOrderCountRepository;
+        $this->custLvlHelper = $custLvlHelper;
         $this->logger = $logger;
     }
 
@@ -43,6 +51,9 @@ class CreditMemoDecrementOrderCountAfterSaveObserver implements ObserverInterfac
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
+        if (!$this->custLvlHelper->isCustomerLevelsEnabled()) {
+            return false;
+        }
         $creditmemo = $observer->getEvent()->getCreditmemo();
         try {
             $order = $creditmemo->getOrder();

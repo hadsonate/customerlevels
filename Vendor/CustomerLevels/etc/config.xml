@@ -12,6 +12,7 @@
     <default>
         <customer_levels>
             <general>
+                <enabled>1</enabled>
                 <tier_levels><![CDATA[{"_1758718763326_326":{"tier_level":"0","tier_cap":"0","enable":"1"},"_1758718815760_760":{"tier_level":"1","tier_cap":"4","enable":"1"},"_1758718819655_655":{"tier_level":"2","tier_cap":"9","enable":"1"},"_1758718825536_536":{"tier_level":"3","tier_cap":"49","enable":"1"},"_1758718840311_311":{"tier_level":"4","tier_cap":"99","enable":"1"},"_1758718848876_876":{"tier_level":"5","tier_cap":"999","enable":"1"}}]]></tier_levels>
             </general>
         </customer_levels>
